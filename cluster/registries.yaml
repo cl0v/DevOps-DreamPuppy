@@ -1,0 +1,8 @@
+# The default endpoint for docker.io is https://index.docker.io/v2.
+# ACCESS TOKEN DESCRIPTION: k3d | docker login -u vianagallery | dckr_pat_5eGuYnTjta7PWebXtmh5wjwl450
+
+configs:
+  docker.io:
+    auth:
+      username: vianagallery
+      password: dckr_pat_5eGuYnTjta7PWebXtmh5wjwl450
