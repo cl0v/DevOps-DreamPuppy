@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gallery-api
+  name: gallery
   labels:
-    app: gallery-api
+    app: gallery
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: gallery-api
+      app: gallery
   template:
     metadata:
       labels:
-        app: gallery-api
+        app: gallery
     spec:
       containers:
       - name: gallery-api
         image: vianagallery/gallery-api:latest
         ports:
-        - containerPort: 80
+        - containerPort: 443
         env:
         - name: TEST_NAME
           value: "K8S-WORKING"
