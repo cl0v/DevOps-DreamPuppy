@@ -6,7 +6,7 @@ spec:
   selector:
     app.kubernetes.io/name: proxy
   ports:
-  - name: name-of-service-port
+  - name: name-of-service-port-t01
     protocol: TCP
     port: 443
     targetPort: http-web-svc

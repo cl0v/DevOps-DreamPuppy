@@ -15,3 +15,6 @@ export DOCKER_EMAIL=marcelo.ita.boss@gmail.com
 # Create the regcred secret (WARNING: This shouldn't be used at cloud services)
 kubectl create secret docker-registry regcred --docker-server=$DOCKER_REGISTRY_SERVER --docker-username=$DOCKER_USER --docker-password=$DOCKER_PASSWORD --docker-email=$DOCKER_EMAIL
 
+# Install Ingress-controller-nginx [https://kubernetes.github.io/ingress-nginx/deploy/#rancher-desktop]
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml
+
