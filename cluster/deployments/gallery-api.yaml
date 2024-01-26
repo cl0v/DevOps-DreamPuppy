@@ -2,8 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gallery-api
+  labels:
+    app: gallery-api
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: gallery-api
@@ -27,4 +29,4 @@ spec:
         - name: AZURE_STORAGE_CNN_STR
           value: "DefaultEndpointsProtocol=https;AccountName=01vianadev;AccountKey=Rv3sdophD7yqxfpuVdDdeyEANR0XJ9EpRRfjTn+pcjz4mPqbiYQRzeNdOJIPhyc8U5CWPXktvVNL+AStoT9SlA==;EndpointSuffix=core.windows.net"
       imagePullSecrets:
-      - name: reg03
+      - name: regcred
