@@ -21,7 +21,7 @@ spec:
         - containerPort: 80
         env:
         - name: TEST_NAME
-          value: "K8S-WORKING"
+          value: "K8S-WORKING-01"
         - name: POSTGRES_URL
           value: "postgresql+psycopg2://postgres:example@postgres:5432/database"
         - name: ADMIN_JWT
