@@ -18,3 +18,12 @@ kubectl create secret docker-registry regcred --docker-server=$DOCKER_REGISTRY_S
 # Install Ingress-controller-nginx [https://kubernetes.github.io/ingress-nginx/deploy/#rancher-desktop]
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml
 
+# Aguarda subir os container responsáveis pelo ingress:
+kubectl wait --namespace ingress-nginx --for=condition=ready pod --selector=app.kubernetes.io/component=controller --timeout=120s
+
+# Cria um recurso ingress
+kubectl create ingress demo-localhost --class=nginx --rule="demo.localdev.me/*=demo:80"
+
+# Direciona a porta para localhost:8080 [WARNING: Port-forwarding is not for a production environment use-case]
+kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 8080:80
+
