@@ -3,6 +3,9 @@
 # Deploy Pods
 kubectl apply -f cluster/pods/deployments/
 
+# Deploy PV and PVCS
+kubectl apply -f cluster/pods/storages/
+
 # Serve Pods (Export)
 kubectl apply -f cluster/services/
 

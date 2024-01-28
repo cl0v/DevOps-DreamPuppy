@@ -8,7 +8,7 @@ metadata:
 spec:
     ingressClassName: nginx
     rules:
-    - host: localhost
+    - host: #localhost #can be dev.api.dreampuppy.com.br
       http:
         paths:
         - backend:
