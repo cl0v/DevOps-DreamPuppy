@@ -24,14 +24,6 @@ kubectl cp ../backup.sql $POD_ID:/tmp/postgres/backup.sql
 
 #Copiar o arquivo para o pod leva um tempo. (Esse tempo difere da conexão no cloud e o tamanho do arquivo)
 sleep 3
-# ! ERROR DESC:
-# -----
-psql: error: connection to server at "localhost" (::1), port 5432 failed: Connection refused
-	Is the server running on that host and accepting TCP/IP connections?
-connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
-	Is the server running on that host and accepting TCP/IP connections?
-command terminated with exit code 2
-# -----
 
 echo "> Importando dados de backup pt 3"
 kubectl exec $POD_ID -- psql -U $DB_USER -d $DB_NAME -h $DB_HOST -f /tmp/postgres/backup.sql
