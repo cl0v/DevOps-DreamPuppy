@@ -1,7 +1,6 @@
 #!/bin/bash
 
 echo "> Iniciando backup de dados"
-sleep 10
 
 # Salva o id do pod
 POD_ID=$(kubectl get pods -o name | grep postgres | cut -d'/' -f2)
@@ -12,15 +11,29 @@ DB_HOST=localhost
 DB_USER=postgres
 DB_NAME=database
 
-echo Aguardando $POD_ID estar pronto
+echo Waiting for pod to be ready: $POD_ID
 while ! kubectl wait --for=condition=ready pod $POD_ID --timeout=15s; do
-    echo "Postgress pod not available yet, retrying"
+    echo Postgress pod not available yet, retrying
 done
 
-echo "> Importando dados de backup"
+echo "> Importando dados de backup pt 1"
 # Injeta os dados no banco de dados
 kubectl exec $POD_ID -- mkdir /tmp/postgres
+echo "> Importando dados de backup pt 2"
 kubectl cp ../backup.sql $POD_ID:/tmp/postgres/backup.sql
+
+#Copiar o arquivo para o pod leva um tempo. (Esse tempo difere da conexão no cloud e o tamanho do arquivo)
+sleep 3
+# ! ERROR DESC:
+# -----
+psql: error: connection to server at "localhost" (::1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+command terminated with exit code 2
+# -----
+
+echo "> Importando dados de backup pt 3"
 kubectl exec $POD_ID -- psql -U $DB_USER -d $DB_NAME -h $DB_HOST -f /tmp/postgres/backup.sql
 
 # Test with:

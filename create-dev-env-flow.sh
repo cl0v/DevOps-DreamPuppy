@@ -15,8 +15,9 @@
 ./lab/create-cluster.sh
 ./lab/docker-login-secret.sh
 ./lab/apply-kube-files.sh
-# (./lab/import-backup-sql.sh) & 
-# (./lab/install-ingress-controller.sh ; ./lab/port-forward.sh) &
+sleep 8
+(./lab/import-backup-sql.sh) & 
+(./lab/install-ingress-controller.sh ; ./lab/port-forward.sh) &
 
 
 echo "Pressione alguma tecla para cancelar"
