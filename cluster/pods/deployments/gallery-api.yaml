@@ -15,7 +15,7 @@ spec:
         app: gallery
     spec:
       containers:
-      - name: gallery-container-t01
+      - name: main
         image: vianagallery/gallery-api:latest
         ports:
         - containerPort: 80

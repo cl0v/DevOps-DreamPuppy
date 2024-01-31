@@ -17,7 +17,7 @@ spec:
         persistentVolumeClaim:
           claimName: postgres-pv-claim
       containers:
-      - name: postgres-container-t01
+      - name: main
         image: postgres:latest
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
