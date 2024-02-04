@@ -8,5 +8,5 @@ DOCKER_PASSWORD=dckr_pat_5eGuYnTjta7PWebXtmh5wjwl450
 DOCKER_EMAIL=marcelo.ita.boss@gmail.com
 
 # Create the regcred secret (WARNING: This shouldn't be used at cloud services)
-kubectl create secret docker-registry regcred --docker-server=$DOCKER_REGISTRY_SERVER --docker-username=$DOCKER_USER --docker-password=$DOCKER_PASSWORD --docker-email=$DOCKER_EMAIL
+kubectl create secret docker-registry docker-hub-cred --docker-server=$DOCKER_REGISTRY_SERVER --docker-username=$DOCKER_USER --docker-password=$DOCKER_PASSWORD --docker-email=$DOCKER_EMAIL
 

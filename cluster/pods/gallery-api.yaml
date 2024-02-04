@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gallery
+  labels:
+    app: gallery
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gallery
+  template:
+    metadata:
+      labels:
+        app: gallery
+    spec:
+      containers:
+      - name: gallery-container
+        image: vianagallery/gallery-api:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: "1"
+          requests:
+            memory: 256Mi
+            cpu: "0.2"
+        ports:
+        - containerPort: 80
+        env:
+        - name: TEST_NAME
+          value: "K8S-WORKING-02"
+        - name: POSTGRES_URL
+          value: "postgresql+psycopg2://postgres:example@postgres:5432/database"
+        - name: ADMIN_JWT
+          value: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYXJjZWxvQGVtYWlsLmNvbSIsImV4cCI6MTcwMzQ1MTc2NH0.7H0tsroOtGhRmoixujPCqOb5w7fIB8YjTRkEnN88XCI"
+        - name: AZURE_STORAGE_CNN_STR
+          value: "DefaultEndpointsProtocol=https;AccountName=01vianadev;AccountKey=Rv3sdophD7yqxfpuVdDdeyEANR0XJ9EpRRfjTn+pcjz4mPqbiYQRzeNdOJIPhyc8U5CWPXktvVNL+AStoT9SlA==;EndpointSuffix=core.windows.net"
+      imagePullSecrets:
+      - name: docker-hub-cred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gallery
+  namespace: default
+  labels:
+    app: gallery
+spec:
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: name-of-service-port-t01
+    protocol: TCP
+    port: 80
+    targetPort: 80
+  selector:
+    app: gallery
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer: {}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dev.gallery
+  namespace: default
+  annotations:
+     nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+    # ingressClassName: nginx
+    rules:
+    # - host: localhost #can be dev.api.dreampuppy.com.br
+      - http:
+          paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gallery
+                port:
+                  number: 8001
+status:
+    loadBalancer: {}
