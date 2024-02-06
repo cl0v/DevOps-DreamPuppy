@@ -1,7 +1,42 @@
+# Arquivo de teste, não deve ser usado
+#! In this exercise, you create a hostPath PersistentVolume. Kubernetes supports hostPath for development and testing on a single-node cluster.
+#? In a production cluster, you would not use hostPath. Instead a cluster administrator would provision a network resource
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgress-pv-volume
+  namespace: backend
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+  # For production use, the Kubernetes project recommends using the ReadWriteOncePod access mode instead.
+  - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+---
+# Arquivo de teste, não deve ser usado
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pv-claim
+  namespace: backend
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres
+  namespace: backend
 spec:
   replicas: 1
   selector:
@@ -19,13 +54,13 @@ spec:
       containers:
       - name: main
         image: postgres:latest
-        resources:
-          limits:
-            memory: 512Mi
-            cpu: "1"
-          requests:
-            memory: 256Mi
-            cpu: "0.2"
+        # resources:
+        #   limits:
+        #     memory: 512Mi
+        #     cpu: "1"
+        #   requests:
+        #     memory: 256Mi
+        #     cpu: "0.2"
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
           name: postgres-persistent-storage
@@ -43,41 +78,10 @@ kind: Service
 apiVersion: v1
 metadata:
   name: postgres
+  namespace: backend
 spec:
   selector:
     app: postgres
   ports:
     - port: 5432
   type: ClusterIP
----
-# Arquivo de teste, não deve ser usado
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: postgres-pv-claim
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 3Gi
----
-# Arquivo de teste, não deve ser usado
-#! In this exercise, you create a hostPath PersistentVolume. Kubernetes supports hostPath for development and testing on a single-node cluster.
-#? In a production cluster, you would not use hostPath. Instead a cluster administrator would provision a network resource
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: postgress-pv-volume
-  labels:
-    type: local
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 10Gi
-  accessModes:
-  # For production use, the Kubernetes project recommends using the ReadWriteOncePod access mode instead.
-  - ReadWriteOnce
-  hostPath:
-    path: "/mnt/data"
