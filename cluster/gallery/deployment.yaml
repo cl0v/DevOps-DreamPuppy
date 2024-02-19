@@ -16,28 +16,39 @@ spec:
         app: gallery
     spec:
       containers:
-      - name: backend
-        image: docker.io/vianagallery/gallery-api:alp-0.0.3
+      - name: main
+        image: docker.io/vianagallery/gallery-api:alp-0.0.5
         imagePullPolicy: Always
-        # resources:
-          # limits:
-          #   memory: 512Mi
-          #   cpu: "1"
-          # requests:
-          #   memory: 256Mi
-          #   cpu: "0.2"
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: "1"
+          requests:
+            memory: 256Mi
+            cpu: "0.2"
         ports:
         - containerPort: 8080
-        # - name: http
         env:
         - name: TEST_NAME
-          value: "K8S-WORKING-02"
+          valueFrom:
+            secretKeyRef:
+              name: gallery-secret
+              key: TEST_NAME
         - name: POSTGRES_URL
-          value: "postgresql+psycopg2://postgres:example@postgres:5432/database"
+          valueFrom:
+            secretKeyRef:
+              name: gallery-secret
+              key: POSTGRES_URL
         - name: ADMIN_JWT
-          value: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYXJjZWxvQGVtYWlsLmNvbSIsImV4cCI6MTcwMzQ1MTc2NH0.7H0tsroOtGhRmoixujPCqOb5w7fIB8YjTRkEnN88XCI"
+          valueFrom:
+            secretKeyRef:
+              name: gallery-secret
+              key: ADMIN_JWT
         - name: AZURE_STORAGE_CNN_STR
-          value: "DefaultEndpointsProtocol=https;AccountName=01vianadev;AccountKey=Rv3sdophD7yqxfpuVdDdeyEANR0XJ9EpRRfjTn+pcjz4mPqbiYQRzeNdOJIPhyc8U5CWPXktvVNL+AStoT9SlA==;EndpointSuffix=core.windows.net"
+          valueFrom:
+            secretKeyRef:
+              name: gallery-secret
+              key: AZURE_STORAGE_CNN_STR
       imagePullSecrets:
       - name: docker-hub-cred
 ---
@@ -56,11 +67,11 @@ spec:
     # protocol: TCP
   selector:
     app: gallery
-  # internalTrafficPolicy: Cluster
-  # ipFamilies:
-  # - IPv4
-  # ipFamilyPolicy: SingleStack
-  # sessionAffinity: None
-  # type: LoadBalancer
+    # internalTrafficPolicy: Cluster
+    # ipFamilies:
+    # - IPv4
+    # ipFamilyPolicy: SingleStack
+    # sessionAffinity: None
+    # type: LoadBalancer
 # status:
 #   loadBalancer: {}

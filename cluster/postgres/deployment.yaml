@@ -14,7 +14,7 @@ spec:
     storage: 10Gi
   accessModes:
   # For production use, the Kubernetes project recommends using the ReadWriteOncePod access mode instead.
-  - ReadWriteOnce
+  - ReadWriteOncePod
   hostPath:
     path: "/mnt/data"
 ---
@@ -27,7 +27,7 @@ metadata:
 spec:
   storageClassName: manual
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   resources:
     requests:
       storage: 3Gi
@@ -54,13 +54,13 @@ spec:
       containers:
       - name: main
         image: postgres:latest
-        # resources:
-        #   limits:
-        #     memory: 512Mi
-        #     cpu: "1"
-        #   requests:
-        #     memory: 256Mi
-        #     cpu: "0.2"
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: "1"
+          requests:
+            memory: 256Mi
+            cpu: "0.2"
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
           name: postgres-persistent-storage
@@ -68,11 +68,20 @@ spec:
         - containerPort: 5432
         env:
         - name: POSTGRES_DB
-          value: database
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_DB
         - name: POSTGRES_USER
-          value: postgres
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_USER
         - name: POSTGRES_PASSWORD
-          value: example
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_PASSWORD
 ---
 kind: Service
 apiVersion: v1
@@ -83,5 +92,5 @@ spec:
   selector:
     app: postgres
   ports:
-    - port: 5432
+  - port: 5432
   type: ClusterIP

@@ -10,10 +10,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - dev.api.dreampuppy.com.br
+    - api.dreampuppy.com.br
     secretName: letsencrypt-nginx
   rules:
-    - host: dev.api.dreampuppy.com.br
+    - host: api.dreampuppy.com.br
       http:
         paths:
         - path: /
