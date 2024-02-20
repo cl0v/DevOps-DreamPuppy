@@ -1,0 +1,12 @@
+name: e2etesting
+description: "Check local cloud api is working fine by api calls. "
+version: 1.0.0
+# homepage: https://example-pet-store.com/newtify
+# documentation: https://example-pet-store.com/newtify/docs
+
+
+environment:
+  sdk: '>=3.3.0 <3.4.0'
+
+dependencies:
+  http: ^1.2.1

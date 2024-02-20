@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: main
-        image: docker.io/vianagallery/gallery-api:alp-0.0.5
+        image: docker.io/vianagallery/gallery-api:stable
         imagePullPolicy: Always
         resources:
           limits:
@@ -44,11 +44,23 @@ spec:
             secretKeyRef:
               name: gallery-secret
               key: ADMIN_JWT
+              # Precisa ser deletado já que não uso mais o Azure (Migração para CloudFlare Images)
         - name: AZURE_STORAGE_CNN_STR
           valueFrom:
             secretKeyRef:
               name: gallery-secret
               key: AZURE_STORAGE_CNN_STR
+              # CloudFlareImages Account Id
+        - name: CFI_ID
+          valueFrom:
+            secretKeyRef:
+              name: gallery-secret
+              key: CFI_ID
+        - name: CFI_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: gallery-secret
+              key: CFI_TOKEN
       imagePullSecrets:
       - name: docker-hub-cred
 ---
