@@ -30,10 +30,7 @@ spec:
         - containerPort: 8080
         env:
         - name: TEST_NAME
-          valueFrom:
-            secretKeyRef:
-              name: gallery-secret
-              key: TEST_NAME
+          value: Cluster Dev
         - name: POSTGRES_URL
           valueFrom:
             secretKeyRef:
@@ -44,13 +41,7 @@ spec:
             secretKeyRef:
               name: gallery-secret
               key: ADMIN_JWT
-              # Precisa ser deletado já que não uso mais o Azure (Migração para CloudFlare Images)
-        - name: AZURE_STORAGE_CNN_STR
-          valueFrom:
-            secretKeyRef:
-              name: gallery-secret
-              key: AZURE_STORAGE_CNN_STR
-              # CloudFlareImages Account Id
+        # CloudFlareImages Account Id
         - name: CFI_ID
           valueFrom:
             secretKeyRef:
