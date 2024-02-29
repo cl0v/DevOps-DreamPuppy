@@ -30,7 +30,7 @@ spec:
         - containerPort: 8080
         env:
         - name: TEST_NAME
-          value: Cluster Dev
+          value: Cluster Prod
         - name: POSTGRES_URL
           valueFrom:
             secretKeyRef:
