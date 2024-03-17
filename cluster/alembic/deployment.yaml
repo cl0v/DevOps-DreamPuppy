@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alembic
+  namespace: backend
+  labels:
+    app: alembic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alembic
+  template:
+    metadata:
+      labels:
+        app: alembic
+    spec:
+      containers:
+      - name: alembic
+        image: docker.io/vianagallery/migrations:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: 256Mi
+            cpu: "0.2"
+          requests:
+            memory: 64Mi
+            cpu: "0.05"
+        env:
+        - name: POSTGRES_URL
+          valueFrom:
+            secretKeyRef:
+              name: gallery-secret
+              key: POSTGRES_URL
+      imagePullSecrets:
+      - name: docker-hub-cred
