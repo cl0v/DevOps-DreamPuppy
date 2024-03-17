@@ -23,3 +23,7 @@ describe-pod:
 	kubectl describe po ${pod} 
 log-pod:
 	kubectl logs ${pod} 
+
+# > Reinicia todos os pods.
+rollout:
+	kubectl rollout restart deployment/gallery
