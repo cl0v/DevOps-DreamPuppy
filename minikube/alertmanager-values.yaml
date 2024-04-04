@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 15s
+route:
+  group_by: ['job']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 3h
+  receiver: 'discord'
+receivers:
+- name: 'discord'
+  discord_configs:
+  - webhook_url: "https://discord.com/api/webhooks/1216944951368089732/KxKmxjdVGsMWLeFGqvN26OablbvT2fxpyA1dFcVu1p5DYqqu4rvt7CvhkTH0vqn72TqE"

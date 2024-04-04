@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dep-front
+  namespace: frontend
+  labels:
+    app: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: front-container
+        image: docker.io/vianagallery/frontend:v2
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: 128Mi
+            cpu: "0.3"
+          requests:
+            memory: 64Mi
+            cpu: "0.1"
+        ports:
+        - containerPort: 8000
+      imagePullSecrets:
+      - name: docker-hub-cred

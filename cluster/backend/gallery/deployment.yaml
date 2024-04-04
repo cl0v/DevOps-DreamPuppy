@@ -31,6 +31,8 @@ spec:
         env:
         - name: TEST_NAME
           value: Cluster Prod
+        - name: API_VERSION
+          value: 1.0.0
         - name: POSTGRES_URL
           valueFrom:
             secretKeyRef:
@@ -54,27 +56,3 @@ spec:
               key: CFI_TOKEN
       imagePullSecrets:
       - name: docker-hub-cred
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: gallery
-  namespace: backend
-  labels:
-    app: gallery
-spec:
-  ports:
-  - name: http
-    port: 80
-    targetPort: 8080
-    # protocol: TCP
-  selector:
-    app: gallery
-    # internalTrafficPolicy: Cluster
-    # ipFamilies:
-    # - IPv4
-    # ipFamilyPolicy: SingleStack
-    # sessionAffinity: None
-    # type: LoadBalancer
-# status:
-#   loadBalancer: {}
