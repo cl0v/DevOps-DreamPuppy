@@ -1,0 +1,50 @@
+##
+## Starter Kit configuration for Velero
+## Version chart 6.0.0
+##
+configuration:
+  # provider is the name for the backup storage location provider.
+  # Parameters for the `default` BackupStorageLocation. See
+  # https://velero.io/docs/v1.6/api-types/backupstoragelocation/
+  backupStorageLocation:
+    # bucket is the name of the bucket to store backups in. Required.
+  - provider: aws
+    bucket: backup-dreampuppy-first-project
+    config:
+      region: nyc3 # e.g. nyc1
+      s3Url: https://nyc3.digitaloceanspaces.com # e.g.: https://nyc1.digitaloceanspaces.com 
+
+  # Parameters for the `default` VolumeSnapshotLocation. See
+  # https://velero.io/docs/v1.6/api-types/volumesnapshotlocation/
+  volumeSnapshotLocation:
+  - provider: digitalocean.com/velero
+
+  # Additional key/value pairs to be used as environment variables
+  extraEnvVars:
+    DIGITALOCEAN_TOKEN: dop_v1_40996445cd396f746e8fe0f19996e278450f3e0b41cd40a82dd1566a153aee8d
+
+# Info about the DO Spaces credentials to be used by the Velero deployment
+credentials:
+  secretContents:
+    cloud: |
+      [default]
+      aws_access_key_id=DO00G2ZHHNVUL6ZPAJFJ
+      aws_secret_access_key=/SsBY27SykR6SrFgmxwP1KGF2SaeyBLvvOUSp0ZLLrU
+
+# Init containers to add to the Velero deployment's pod spec. At least one plugin provider image is required.
+initContainers:
+- name: velero-plugin-for-aws
+  image: velero/velero-plugin-for-aws:v1.9.0
+  imagePullPolicy: IfNotPresent
+  volumeMounts:
+  - mountPath: /target
+    name: plugins
+- name: velero-plugin
+  image: digitalocean/velero-plugin:v1.1.0
+  imagePullPolicy: IfNotPresent
+  volumeMounts:
+  - mountPath: /target
+    name: plugins
+
+# Whether to deploy the restic daemonset.
+deployNodeAgent: false

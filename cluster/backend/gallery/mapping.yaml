@@ -1,0 +1,13 @@
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: api-backend
+  namespace: ambassador
+spec:
+  # hostname: "*"
+  prefix: /
+  host: api.dreampuppy.com.br
+  service: api.backend
+  docs:
+    ignored: true
+  #   path: "/.ambassador-internal/openapi-docs"
