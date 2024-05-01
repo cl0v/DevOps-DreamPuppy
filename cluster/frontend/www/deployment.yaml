@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: www-container
-        image: docker.io/vianagallery/frontend:stable
+        image: vianagallery/frontend
         imagePullPolicy: Always
         resources:
           limits:

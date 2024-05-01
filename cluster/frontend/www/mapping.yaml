@@ -1,13 +1,16 @@
 apiVersion: getambassador.io/v3alpha1
 kind: Mapping
 metadata:
-  name: www-frontend
+  name: www-mapping
   namespace: ambassador
 spec:
+  service: www.frontend:80
+  timeout_ms: 3000
+  connect_timeout_ms: 3000
+  retry_policy:
+    retry_on: 5xx
+    num_retries: 1
+    per_try_timeout: 0.150s
+  hostname: www.dreampuppy.com.br
   prefix: /
-  host: www.dreampuppy.com.br
-  service: www.frontend
-  docs:
-    ignored: true
-  # docs:
-  #   path: "/.ambassador-internal/openapi-docs"
+
