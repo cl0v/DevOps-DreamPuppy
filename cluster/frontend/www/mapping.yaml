@@ -1,16 +1,11 @@
 apiVersion: getambassador.io/v3alpha1
 kind: Mapping
 metadata:
-  name: www-mapping
-  namespace: ambassador
+  name: www-mapping-1714604374711
+  namespace: frontend
 spec:
-  service: www.frontend:80
-  timeout_ms: 3000
-  connect_timeout_ms: 3000
-  retry_policy:
-    retry_on: 5xx
-    num_retries: 1
-    per_try_timeout: 0.150s
+  # ambassador_id:
+  # - default
   hostname: www.dreampuppy.com.br
   prefix: /
-
+  service: www.frontend:80
