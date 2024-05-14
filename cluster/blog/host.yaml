@@ -1,0 +1,17 @@
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Host
+metadata:
+  name: blog-host
+  namespace: ambassador
+spec:
+  hostname: blog.dreampuppy.com.br
+  acmeProvider:
+    authority: https://acme-v02.api.letsencrypt.org/directory
+    email: marcelo@dreampuppy.com.br
+  tlsSecret:
+    name: tls2-cert
+  requestPolicy:
+    insecure:
+      action: Redirect
+      additionalPort: 8080

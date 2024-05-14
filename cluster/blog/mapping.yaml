@@ -1,0 +1,11 @@
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: blog-mapping-1714604374711
+  namespace: blog
+spec:
+  # ambassador_id:
+  # - default
+  hostname: blog.dreampuppy.com.br
+  prefix: /
+  service: blog.blog:80

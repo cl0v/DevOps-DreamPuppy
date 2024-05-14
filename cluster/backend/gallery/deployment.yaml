@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: main
-        image: docker.io/vianagallery/gallery-api:stable
+        image: docker.io/vianagallery/gallery-api
         imagePullPolicy: Always
         resources:
           limits:
@@ -26,8 +26,6 @@ spec:
           requests:
             memory: 256Mi
             cpu: "0.2"
-        ports:
-        - containerPort: 8080
         env:
         - name: TEST_NAME
           value: Cluster Prod
@@ -54,6 +52,8 @@ spec:
             secretKeyRef:
               name: gallery-secret
               key: CFI_TOKEN
+        ports:
+        - containerPort: 8080
       imagePullSecrets:
       - name: docker-hub-cred
 
